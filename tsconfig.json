@@ -1,0 +1,11 @@
+{
+  /* Base configuration. Do not edit this field. */
+  "extends": "./temp/tsconfig.cocos.json",
+
+  /* Add your custom configuration here. */
+  "compilerOptions": {
+    "strict": false,
+    "target": "es2017", // Or any later version like "es2018", "es2019", etc.
+    "lib": ["es2017", "dom"], // Include the appropriate library files
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "__version__": "1.0.6",
+  "general": {
+    "designResolution": {
+      "width": 1080,
+      "height": 1920,
+      "fitHeight": false,
+      "fitWidth": false
+    }
+  },
+  "layer": [
+    {
+      "name": "PERSIST_NODE",
+      "value": 524288
+    }
+  ],
+  "script": {
+    "preserveSymlinks": true
+  }
+}
