@@ -1,0 +1,83 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "player_attack1",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 14,
+    "speed": 1,
+    "wrapMode": 1,
+    "_duration": 0.35714285714285715,
+    "_hash": 0,
+    "_tracks": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_events": [],
+    "_exoticAnimation": null
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 2
+      }
+    },
+    "_channel": {
+      "__id__": 4
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 3
+      },
+      "spriteFrame"
+    ]
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Sprite"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      0,
+      0.07142857142857142,
+      0.14285714285714285,
+      0.21428571428571427,
+      0.2857142857142857
+    ],
+    "_values": [
+      {
+        "__uuid__": "3cd71468-5bdd-4def-b666-1cf92a28bcdd@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "7ce47cf8-ea1a-4689-acec-03afd171a98e@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "94edf9e5-081c-49bf-a1ee-f4c679fca24d@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "98762414-bc6d-474e-bb14-5cb2f0612cbf@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "0cabb8b9-a590-4994-bf20-bd6addb24222@f9941",
+        "__expectedType__": "cc.Asset"
+      }
+    ]
+  }
+]

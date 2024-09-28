@@ -1,0 +1,88 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "player_attack3",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 14,
+    "speed": 1,
+    "wrapMode": 1,
+    "_duration": 0.42857142857142855,
+    "_hash": 0,
+    "_tracks": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_events": [],
+    "_exoticAnimation": null
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 2
+      }
+    },
+    "_channel": {
+      "__id__": 4
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 3
+      },
+      "spriteFrame"
+    ]
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Sprite"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      0,
+      0.07142857142857142,
+      0.14285714285714285,
+      0.21428571428571427,
+      0.2857142857142857,
+      0.35714285714285715
+    ],
+    "_values": [
+      {
+        "__uuid__": "37c3ec58-c507-4f35-b1ca-0b7feff0139e@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "d3ec23bc-1a9a-4cdd-bc6e-de9974cf3cbe@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "e0224afe-6eba-46b0-94ca-6191cd56c503@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "e4bec260-9802-4ed5-b5d7-4ee4368433e0@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "5ea58fd0-a2f1-4256-aa52-d0007cecd992@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "d540f6bd-7f03-409d-89fe-7d40562d5761@f9941",
+        "__expectedType__": "cc.Asset"
+      }
+    ]
+  }
+]

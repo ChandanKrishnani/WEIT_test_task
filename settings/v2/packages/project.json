@@ -12,9 +12,30 @@
     {
       "name": "PERSIST_NODE",
       "value": 524288
+    },
+    {
+      "name": "Default",
+      "value": 2
+    },
+    {
+      "name": "UI",
+      "value": 4
+    },
+    {
+      "name": "UICamera",
+      "value": 8
+    },
+    {
+      "name": "wall",
+      "value": 16
+    },
+    {
+      "name": "Player",
+      "value": 32
     }
   ],
   "script": {
     "preserveSymlinks": true
-  }
+  },
+  "custom_joint_texture_layouts": []
 }

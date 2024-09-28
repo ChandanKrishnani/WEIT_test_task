@@ -1,0 +1,68 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "player_fall",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 10,
+    "speed": 1,
+    "wrapMode": 2,
+    "_duration": 0.2,
+    "_hash": 0,
+    "_tracks": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_events": [],
+    "_exoticAnimation": null
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 2
+      }
+    },
+    "_channel": {
+      "__id__": 4
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 3
+      },
+      "spriteFrame"
+    ]
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Sprite"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      0,
+      0.1
+    ],
+    "_values": [
+      {
+        "__uuid__": "e0f84985-8310-46e7-a1a5-edc8a765c31e@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "a03d1d9f-f6f8-4fc2-8a05-5992f8f3da99@f9941",
+        "__expectedType__": "cc.Asset"
+      }
+    ]
+  }
+]

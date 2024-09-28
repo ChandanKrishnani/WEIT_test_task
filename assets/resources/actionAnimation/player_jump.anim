@@ -1,0 +1,78 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "player_jump",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 40,
+    "speed": 1,
+    "wrapMode": 1,
+    "_duration": 0.1,
+    "_hash": 0,
+    "_tracks": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_events": [],
+    "_exoticAnimation": null
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 2
+      }
+    },
+    "_channel": {
+      "__id__": 4
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 3
+      },
+      "spriteFrame"
+    ]
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Sprite"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      0,
+      0.025,
+      0.05,
+      0.075
+    ],
+    "_values": [
+      {
+        "__uuid__": "fae6cb6d-0e13-43de-bd0c-c482543dc3f5@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "d8c0e8fd-2b6e-408d-9b88-3d9b5bd008b5@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "554f86bd-2714-4d43-a52b-0db0351152c9@f9941",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "7a7fe23d-ba79-4478-8cdc-a541df92aa37@f9941",
+        "__expectedType__": "cc.Asset"
+      }
+    ]
+  }
+]
