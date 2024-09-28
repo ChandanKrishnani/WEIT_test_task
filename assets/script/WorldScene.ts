@@ -10,7 +10,9 @@ import {
   KeyCode,
   director,
   PhysicsSystem2D,
-  v2
+  v2,
+  PHYSICS_2D_PTM_RATIO,
+  EPhysics2DDrawFlags
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -37,8 +39,23 @@ export default class WorldScene extends Component {
 
   protected onLoad() {
     GameManager.worldScene = this;
-    PhysicsSystem2D.instance.enable = true;
-    PhysicsSystem2D.instance.gravity = v2(0,-520);
+    PhysicsSystem2D.instance.gravity = v2(0, -25 * PHYSICS_2D_PTM_RATIO);
+    const system = PhysicsSystem2D.instance;
+
+    // Physics timestep, default fixedTimeStep is 1/60
+    // system.fixedTimeStep = 1/30;
+
+    // // The number of iterations per update of the Physics System processing speed is 10 by default
+    // system.velocityIterations = 8;
+
+    // // The number of iterations per update of the Physics processing location is 10 by default
+    // system.positionIterations = 8;
+
+    // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.Aabb |
+    // EPhysics2DDrawFlags.Pair |
+    // EPhysics2DDrawFlags.CenterOfMass |
+    // EPhysics2DDrawFlags.Joint |
+    // EPhysics2DDrawFlags.Shape;
     
   }
   start() {

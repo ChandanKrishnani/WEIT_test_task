@@ -1,0 +1,78 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "coin",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 4,
+    "speed": 1,
+    "wrapMode": 2,
+    "_duration": 1,
+    "_hash": 0,
+    "_tracks": [
+      {
+        "__id__": 1
+      }
+    ],
+    "_events": [],
+    "_exoticAnimation": null
+  },
+  {
+    "__type__": "cc.animation.ObjectTrack",
+    "_binding": {
+      "__type__": "cc.animation.TrackBinding",
+      "path": {
+        "__id__": 2
+      }
+    },
+    "_channel": {
+      "__id__": 4
+    }
+  },
+  {
+    "__type__": "cc.animation.TrackPath",
+    "_paths": [
+      {
+        "__id__": 3
+      },
+      "spriteFrame"
+    ]
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Sprite"
+  },
+  {
+    "__type__": "cc.animation.Channel",
+    "_curve": {
+      "__id__": 5
+    }
+  },
+  {
+    "__type__": "cc.ObjectCurve",
+    "_times": [
+      0,
+      0.25,
+      0.5,
+      0.75
+    ],
+    "_values": [
+      {
+        "__uuid__": "11eece11-856f-4b5f-b903-6573fdaa7f91@aad66",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "11eece11-856f-4b5f-b903-6573fdaa7f91@60708",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "11eece11-856f-4b5f-b903-6573fdaa7f91@adc23",
+        "__expectedType__": "cc.Asset"
+      },
+      {
+        "__uuid__": "11eece11-856f-4b5f-b903-6573fdaa7f91@5b551",
+        "__expectedType__": "cc.Asset"
+      }
+    ]
+  }
+]

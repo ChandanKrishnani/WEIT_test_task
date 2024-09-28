@@ -16,9 +16,9 @@ export default class MainPlayer extends Component {
     nCachedPlayerFace: number = 1;
     machineOBJ: PlayerStatusMachine = null;
     
-    nPlayerRunSpeed: number = 2;
+    nPlayerRunSpeed: number = 4;
     //Speed ​​when rolling
-    nPlayerRollSpeed: number = 5.5;
+    nPlayerRollSpeed: number = 7.5;
     //hp
     nPlayerHP:number = 100;
     //mp
@@ -66,8 +66,8 @@ export default class MainPlayer extends Component {
         let nOtherTag = selfCollider.tag;
 
 
-        console.log("checking " ,normal , nOtherTag );
-        console.log("checking " ,normal , selfCollider.tag  , this.machineOBJ.getCurStatusKey());
+        // console.log("checking " ,normal , nOtherTag );
+        // console.log("checking " ,normal , selfCollider.tag  , this.machineOBJ.getCurStatusKey());
         
         if ((nOtherTag == 3 || nOtherTag == 2) && normal.y > 0) {
         if (this.machineOBJ.getCurStatusKey() == PlayerActions.fallDown || this.machineOBJ.getCurStatusKey() == PlayerActions.jump ) {
@@ -79,7 +79,7 @@ export default class MainPlayer extends Component {
         this.machineOBJ.changeStatus(PlayerActions.stand1);
         }
 
-        console.log("--",this.rigidbody.linearVelocity);
+        // console.log("--",this.rigidbody.linearVelocity);
         }
         }
 
@@ -126,7 +126,7 @@ export default class MainPlayer extends Component {
 
         this.machineOBJ.changeStatus(PlayerActions.jump)
 
-        this.rigidbody.applyLinearImpulse(new math.Vec2(0, 10), new math.Vec2(0, 0), true);
+        this.rigidbody.applyLinearImpulse(new math.Vec2(0, 12), new math.Vec2(0, 0), true);
         }
     }
     runFallDown() {
@@ -192,7 +192,7 @@ export default class MainPlayer extends Component {
         if (velocity.y < 0) {
         // this.runFallDown();
         }
-
-        GameManager.worldScene.MainCamera.node.setPosition(new Vec3(this.node.position.x,GameManager.worldScene.MainCamera.node.position.y , GameManager.worldScene.MainCamera.node.position.z));
+        const cameraNode = GameManager.worldScene.MainCamera.node;
+        cameraNode.setPosition(new Vec3(this.node.position.x < 0 ? 0 : this.node.position.x ,cameraNode.position.y , cameraNode.position.z));
     }
 }

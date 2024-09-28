@@ -1,0 +1,252 @@
+{
+  "ver": "1.0.8",
+  "importer": "sprite-atlas",
+  "imported": true,
+  "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {
+    "269c7": {
+      "importer": "sprite-frame",
+      "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43@269c7",
+      "displayName": "",
+      "id": "269c7",
+      "name": "snail_01",
+      "userData": {
+        "importer": "sprite-frame",
+        "atlasUuid": "5fc256af-971a-4986-aa19-83036e2d4f43",
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 193,
+        "trimY": 1,
+        "width": 62,
+        "height": 51,
+        "rawWidth": 62,
+        "rawHeight": 51,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "11ee3410-656e-4c63-89db-fff6023bfb38@6c48a"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6f8d5": {
+      "importer": "sprite-frame",
+      "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43@6f8d5",
+      "displayName": "",
+      "id": "6f8d5",
+      "name": "snail_02",
+      "userData": {
+        "importer": "sprite-frame",
+        "atlasUuid": "5fc256af-971a-4986-aa19-83036e2d4f43",
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 1,
+        "trimY": 1,
+        "width": 62,
+        "height": 53,
+        "rawWidth": 62,
+        "rawHeight": 53,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "11ee3410-656e-4c63-89db-fff6023bfb38@6c48a"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "b3d4e": {
+      "importer": "sprite-frame",
+      "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43@b3d4e",
+      "displayName": "",
+      "id": "b3d4e",
+      "name": "snail_03",
+      "userData": {
+        "importer": "sprite-frame",
+        "atlasUuid": "5fc256af-971a-4986-aa19-83036e2d4f43",
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 65,
+        "trimY": 1,
+        "width": 62,
+        "height": 52,
+        "rawWidth": 62,
+        "rawHeight": 52,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "11ee3410-656e-4c63-89db-fff6023bfb38@6c48a"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "fce52": {
+      "importer": "sprite-frame",
+      "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43@fce52",
+      "displayName": "",
+      "id": "fce52",
+      "name": "snail_04",
+      "userData": {
+        "importer": "sprite-frame",
+        "atlasUuid": "5fc256af-971a-4986-aa19-83036e2d4f43",
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 129,
+        "trimY": 1,
+        "width": 62,
+        "height": 52,
+        "rawWidth": 62,
+        "rawHeight": 52,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "11ee3410-656e-4c63-89db-fff6023bfb38@6c48a"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "70e90": {
+      "importer": "sprite-frame",
+      "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43@70e90",
+      "displayName": "",
+      "id": "70e90",
+      "name": "snail_05",
+      "userData": {
+        "importer": "sprite-frame",
+        "atlasUuid": "5fc256af-971a-4986-aa19-83036e2d4f43",
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0,
+        "trimX": 257,
+        "trimY": 1,
+        "width": 43,
+        "height": 43,
+        "rawWidth": 43,
+        "rawHeight": 43,
+        "borderTop": 0,
+        "borderBottom": 0,
+        "borderLeft": 0,
+        "borderRight": 0,
+        "packable": true,
+        "pixelsToUnit": 100,
+        "pivotX": 0.5,
+        "pivotY": 0.5,
+        "meshType": 0,
+        "vertices": {
+          "rawPosition": [],
+          "indexes": [],
+          "uv": [],
+          "nuv": [],
+          "minPos": [],
+          "maxPos": []
+        },
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "11ee3410-656e-4c63-89db-fff6023bfb38@6c48a"
+      },
+      "ver": "1.0.12",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "atlasTextureName": "snail_skin.png",
+    "format": 3,
+    "textureUuid": "11ee3410-656e-4c63-89db-fff6023bfb38@6c48a",
+    "uuid": "5fc256af-971a-4986-aa19-83036e2d4f43"
+  }
+}
