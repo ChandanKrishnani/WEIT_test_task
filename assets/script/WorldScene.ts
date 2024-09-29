@@ -17,7 +17,8 @@ import {
 const { ccclass, property } = _decorator;
 
 import MainPlayer from "./MainPlayer";
-import { GameManager } from "./GameManager";
+import { GameManager } from "./managers/GameManager";
+// import { GameManager } from "./GameManager";
 
 @ccclass("WorldScene")
 export default class WorldScene extends Component {
@@ -38,7 +39,7 @@ export default class WorldScene extends Component {
   nWorldGravity: number = -1;
 
   protected onLoad() {
-    GameManager.worldScene = this;
+    GameManager.Instance.WorldScene = this;
     PhysicsSystem2D.instance.gravity = v2(0, -25 * PHYSICS_2D_PTM_RATIO);
     const system = PhysicsSystem2D.instance;
 

@@ -8,7 +8,7 @@ export enum LoaderType {
 
 /**
  * @title PopUp class
- * @author Harpinder Singh
+ * @author Chandan Singh
  * @notice this class manages the popUps.
  */
 @ccclass("CircularLoader")
@@ -16,7 +16,7 @@ export class CircularLoader extends Component {
   @property(Node) message: Node = null!;
   @property(Node) circle: Node = null!;
   start() {
-    console.log("hello are you");
+    
   }
 
   onLoad() {

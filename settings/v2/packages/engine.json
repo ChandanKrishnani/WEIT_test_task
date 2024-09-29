@@ -107,7 +107,7 @@
         "_value": false
       },
       "tiled-map": {
-        "_value": true
+        "_value": false
       },
       "spine": {
         "_value": true
@@ -147,7 +147,6 @@
       "profiler",
       "skeletal-animation",
       "spine",
-      "tiled-map",
       "tween",
       "ui"
     ],

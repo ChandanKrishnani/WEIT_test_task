@@ -3,6 +3,7 @@ import {
   AudioSource,
   Component,
   director,
+  Animation,
   Node,
   ProgressBar,
 } from "cc";
@@ -17,10 +18,16 @@ import { ResourcesManager } from "../managers/ResourcesManager";
 import {
   ASSET_CACHE_MODE,
   CUSTON_EVENT,
-  MAX_LEVELS,
+  GAME_EVENT,
   SOUNDS_NAME,
 } from "../constants/Constant";
+import { GameEndPopup } from "../Lobby/GameEndPopup";
 const { ccclass, property } = _decorator;
+
+export enum GameResultType  {
+  PLAYER_WON,
+  PLAYER_LOSE,
+}
 
 @ccclass("PersistNode")
 export class PersistNode extends Component {
@@ -36,12 +43,45 @@ export class PersistNode extends Component {
   @property({ type: ProgressBar })
   loadingProgress: ProgressBar = null!;
 
+  @property({type : Node})
+  gameEndPopup : Node  = null;
+
+  @property({type : Node})
+  sceneTarnsition : Node;
+
   start() {
+    this.registerEvents(); // rehistering global events
     director.addPersistRootNode(this.node);
     GameManager.Instance.PersistNodeRef = this;
     this.initAudioSource();
     this.loadAudios();
+    this.gameEndPopup.active = false;
+
   }
+
+
+  private registerEvents() {
+    director.on(GAME_EVENT.SHOW_GAME_END_POPUP,this.showGameEndPopup , this);
+    director.on(GAME_EVENT.SWITCH_SCENE, this.switchScene ,this);
+  }
+
+  switchScene(sceneName : string){
+    this.sceneTarnsition.active = true;
+    this.sceneTarnsition.getComponent(Animation).play('transitionIn');
+    director.loadScene(sceneName,()=>{
+      this.sceneTarnsition.getComponent(Animation).crossFade('transitionOut');
+    });
+  }
+
+
+
+  showGameEndPopup(gameResult: GameResultType){
+    this.gameEndPopup.getComponent(GameEndPopup).updatePopupStatus(gameResult);
+    this.gameEndPopup.active = true;
+  } 
+
+
+
 
   showLoader() {
     this.loader!.getComponent(CircularLoader)!.showLoader(
@@ -62,6 +102,7 @@ export class PersistNode extends Component {
     SoundManager.getInstance().playMusicClip(clip, isloopOn);
   }
   playEffect(clip) {
+    console.log("Player sound effect of coin" , clip);
     SoundManager.getInstance().playSoundEffect(clip, false);
   }
   stopAudio() {
@@ -79,8 +120,8 @@ export class PersistNode extends Component {
     let audioResources = [
       { FunkyChill2loop: "SoundMusic/FunkyChill2loop" },
       { DefaultClick: "SoundMusic/DefaultClick" },
-      { ShapeAppear: "SoundMusic/PlayerAppear" },
-      { LevelComplete: "SoundMusic/LevelComplete" },
+      { LevelComplete: "SoundMusic/LevelComplete"},
+      { Coin: "SoundMusic/coin"},
     ];
     
     await ResourcesManager.loadArrayOfResource(
@@ -101,10 +142,10 @@ export class PersistNode extends Component {
   }
 
   loading = (progress: number) => {
-    this.loadingProgress.progress = progress;
-    if (progress >= 1) {
-      this.loadingProgress.node.active = false;
-      director.emit(CUSTON_EVENT.LOADING_DONE);
-    }
+    // this.loadingProgress.progress = progress;
+    // if (progress >= 1) {
+    //   this.loadingProgress.node.active = false;
+    //   director.emit(CUSTON_EVENT.LOADING_DONE);
+    // }
   };
 }

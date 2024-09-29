@@ -17,7 +17,8 @@ export enum PlayerActions {
     unEquip = "unequip",
     jump = "jump",
     fallDown = "falldown",
-    rolling = "rolling"
+    rolling = "rolling",
+    died = "died"
 }
 
 export class PlayerStatusMachine {
@@ -39,6 +40,7 @@ export class PlayerStatusMachine {
         this.mapStatusInfo.set(PlayerActions.fallDown, new FallStatus(this, this.spritePlayer));
         this.mapStatusInfo.set(PlayerActions.move, new MoveStatus(this, this.spritePlayer));
         this.mapStatusInfo.set(PlayerActions.rolling, new RollingStatus(this, this.spritePlayer));
+        this.mapStatusInfo.set(PlayerActions.died, new RollingStatus(this, this.spritePlayer));
 
         this.changeStatus(PlayerActions.stand2);
     }

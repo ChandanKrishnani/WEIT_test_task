@@ -3,25 +3,34 @@ import {
   Component,
   Node,
   RigidBody2D,
-  RigidBody,
   math,
   Vec3,
+  Animation,
   Collider2D,
   Contact2DType,
   IPhysics2DContact,
   PhysicsSystem2D,
   CircleCollider2D,
   director,
+  tween,
+  BoxCollider2D,
 } from "cc";
 const { ccclass, property } = _decorator;
 
-import { GameManager } from "./GameManager";
+// import { GameManager } from "./GameManager";
 import {
   PlayerActions,
   PlayerStatusMachine,
 } from "./StatusSrc/PlayerStatusMachine";
 import AttackStatus from "./StatusSrc/PlayerStatus/AttackStatus";
 import { CoinCost } from "./comman/CoinCost";
+import Beetle from "../textures/object/beetle/Beetle";
+import Snail from "../textures/object/snail/Snail";
+import { GameResultType } from "./comman/PersistNode";
+import CoinScript from "../textures/object/coin/coin_script";
+import { GameManager } from "./managers/GameManager";
+import { SOUNDS_NAME } from "./constants/Constant";
+import { ResourcesManager } from "./managers/ResourcesManager";
 
 @ccclass("MainPlayer")
 export default class MainPlayer extends Component {
@@ -49,6 +58,7 @@ export default class MainPlayer extends Component {
   nPlayerMPRecov: number = 0;
   //    //np reply speed (per second)
   nPlayerNPRecov: number = 0;
+
   onLoad() {
     this.rigidbody = this.node.getComponent(RigidBody2D);
     this.rigidbody.enabledContactListener = true;
@@ -80,7 +90,7 @@ export default class MainPlayer extends Component {
     otherCollider: Collider2D,
     contact: IPhysics2DContact
   ) {
-    console.log("On begin conact called", selfCollider, otherCollider);
+
     let worldManifold = contact.getWorldManifold();
     let points = worldManifold.points;
     let normal = worldManifold.normal;
@@ -95,14 +105,15 @@ export default class MainPlayer extends Component {
       ) {
         this.scheduleOnce(() => {
           if (otherCollider?.node) {
-            // director.emit("PlayCoinAnimation" ,this.node.getPosition(), otherCollider.node.getPosition());
-            otherCollider.node.destroy();
+            otherCollider.node.getComponent(RigidBody2D).enabled = false;
+            otherCollider.node.emit("playDead");
           }
-          // otherCollider?.node && ( || true)) && otherCollider.node.destroy();
         });
       } else {
         this.scheduleOnce(() => {
-          selfCollider.node.destroy();
+            this.playerDieAnimation();
+        //   selfCollider.node.destroy();
+
         });
       }
     }
@@ -110,6 +121,9 @@ export default class MainPlayer extends Component {
     if (nOtherTag == 8) {
       this.scheduleOnce(() => {
         if (otherCollider?.node) {
+          GameManager.Instance.PersistNodeRef.playEffect(
+            ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.COIN)
+          );
           director.emit(
             "PlayCoinAnimation",
             this.node.getPosition(),
@@ -118,16 +132,17 @@ export default class MainPlayer extends Component {
           );
           otherCollider.node.destroy();
         }
-        // otherCollider?.node && ( || true)) && otherCollider.node.destroy();
       });
       // otherCollider.node.active && (otherCollider.node.active = false);
       console.log("coins colided", selfCollider, otherCollider);
     }
 
-    // console.log("checking " ,normal , nOtherTag );
-    // console.log("checking " ,normal , selfCollider.tag  , this.machineOBJ.getCurStatusKey());
+    if(nOtherTag == 11){
+      this.PlayerwonAnimation();
+      
+    }
 
-    if ((nOtherTag == 3 || nOtherTag == 2) && normal.y > 0) {
+    if ((nOtherTag == 3 || nOtherTag == 2) && (normal.y > 0 || normal.y < 0)) {
       if (
         this.machineOBJ.getCurStatusKey() == PlayerActions.fallDown ||
         this.machineOBJ.getCurStatusKey() == PlayerActions.jump
@@ -166,7 +181,25 @@ export default class MainPlayer extends Component {
       this.machineOBJ.changeStatus(PlayerActions.attack);
     }
   }
+
+  playerDieAnimation(){
+    
+    this.bPlayerInRunning = false;
+    // this.node.getComponent(BoxCollider2D).group = 3;
+    this.machineOBJ.changeStatus(PlayerActions.died); 
+    
+    // console.log("game end called" , director.getScene());
+    director.emit("ShowGameEndPopup",GameResultType.PLAYER_LOSE);
+  
+
+    
+  }
+
+  PlayerwonAnimation(){
+     director.emit("ShowGameEndPopup",GameResultType.PLAYER_WON);
+  }
   runRolling() {
+  
     if (
       this.machineOBJ.getCurStatusKey() != PlayerActions.jump &&
       this.machineOBJ.getCurStatusKey() != PlayerActions.fallDown &&
@@ -223,6 +256,7 @@ export default class MainPlayer extends Component {
     this.nCachedPlayerFace = nScaleX;
   }
   setPlayerFace() {
+
     //If in attack action
     if (this.machineOBJ.getCurStatusKey() == PlayerActions.attack) {
       return;
@@ -256,7 +290,7 @@ export default class MainPlayer extends Component {
     if (velocity.y < 0) {
       // this.runFallDown();
     }
-    const cameraNode = GameManager.worldScene.MainCamera.node;
+    const cameraNode = GameManager.Instance.WorldScene.MainCamera.node;
     cameraNode.setPosition(
       new Vec3(
         this.node.position.x < 0 ? 0 : this.node.position.x,

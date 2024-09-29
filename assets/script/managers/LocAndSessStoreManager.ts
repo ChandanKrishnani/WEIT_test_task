@@ -1,7 +1,7 @@
 import { warn } from "cc";
 /**
  * Local Storage manager so that each time to get a specific key does not need to access local storage
- * @author Harpinder Singh
+ * @author Chandan Krishnani
  * @version 0.0.1
  */
 

@@ -69,6 +69,8 @@ export class SoundManager {
   }
 
   playMusicClip(clip: AudioClip, loop: boolean) {
+
+    console.log("music clip",clip);
     if (!this.canPlayMusic) {
       return;
     }

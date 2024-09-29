@@ -1,10 +1,10 @@
 /**
  * This class is to Manage overall game data
- * @author : @harpinder
+ * @author : @Chandan
  * Add functions and variable according
  */
 
-import { LOCAL_STORAGE, MAX_LEVELS } from "../constants/Constant";
+import { LOCAL_STORAGE } from "../constants/Constant";
 import { LocAndSessStoreManager, STORAGE } from "./LocAndSessStoreManager";
 
 export class DataManager {
@@ -61,13 +61,6 @@ export class DataManager {
     this._levelSelected = levelNum;
   }
 
-  incrementSlectedLevel() {
-    if (this._levelSelected == MAX_LEVELS) {
-      this._levelSelected = 1;
-    } else {
-      this._levelSelected = this._levelSelected + 1;
-    }
-  }
 
   private _levelPlayed: number = 0;
 
