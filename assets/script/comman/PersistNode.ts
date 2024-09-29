@@ -79,18 +79,12 @@ export class PersistNode extends Component {
     let audioResources = [
       { FunkyChill2loop: "SoundMusic/FunkyChill2loop" },
       { DefaultClick: "SoundMusic/DefaultClick" },
-      { RotateShape: "SoundMusic/RotateShape" },
-      { ShapeAppear: "SoundMusic/ShapeAppear" },
+      { ShapeAppear: "SoundMusic/PlayerAppear" },
       { LevelComplete: "SoundMusic/LevelComplete" },
     ];
-
-    let levelReources = [];
-    for (let index = 1; index <= MAX_LEVELS; index++) {
-      levelReources.push({ index: `Levels/level${index}` });
-    }
-    let resouresToBeLoaded = [...levelReources, ...audioResources];
+    
     await ResourcesManager.loadArrayOfResource(
-      resouresToBeLoaded,
+      audioResources,
       ASSET_CACHE_MODE.Normal,
       this.loading
     );

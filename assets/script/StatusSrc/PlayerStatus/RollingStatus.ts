@@ -14,7 +14,7 @@ export default class RollingStatus extends RootStatus {
     }
     onExit() {
         this.spritePlayer.getComponent(Animation).off(Animation.EventType.FINISHED, this.onRollFinished, this)
-        this.machine.mainPlayer.nPlayerRunSpeed = 2;
+        this.machine.mainPlayer.nPlayerRunSpeed = 4;
     }
     onUpdate(dt: number) {
 

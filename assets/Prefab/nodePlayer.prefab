@@ -45,7 +45,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -4.24,
       "y": 0,
       "z": 0
     },
@@ -354,13 +354,13 @@
     "_restitution": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 14.5
+      "x": 4.6,
+      "y": 57.5
     },
     "_size": {
       "__type__": "cc.Size",
-      "width": 19,
-      "height": 29
+      "width": 60.7,
+      "height": 111.1
     },
     "_id": ""
   },
