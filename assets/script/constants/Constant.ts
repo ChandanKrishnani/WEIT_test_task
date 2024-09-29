@@ -35,7 +35,7 @@ export enum SOUNDS_NAME {
   ROTATE_SHAPE = "RotateShape",
   SHAPE_APPEAR = "ShapeAppear",
   LEVEL_COMPLETE = "LevelComplete",
-  COIN = "Coin",
+  COIN = "coin",
 }
 
 export enum ASSET_CACHE_MODE {

@@ -106,7 +106,7 @@ export class ResourcesManager {
             if (ASSET_CACHE_MODE.Once != cacheMode)
               resourceMap.set(value.name, value);
           });
-
+          console.log("loaded assets",loadedAssets);
           res(loadedAssets as T);
         }
       );

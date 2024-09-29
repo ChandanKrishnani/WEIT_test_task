@@ -12,7 +12,9 @@ import {
   PhysicsSystem2D,
   v2,
   PHYSICS_2D_PTM_RATIO,
-  EPhysics2DDrawFlags
+  EPhysics2DDrawFlags,
+  System,
+  sys
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -44,13 +46,13 @@ export default class WorldScene extends Component {
     const system = PhysicsSystem2D.instance;
 
     // Physics timestep, default fixedTimeStep is 1/60
-    // system.fixedTimeStep = 1/30;
+    sys.isMobile &&  sys.OS.IOS == sys.os && (system.fixedTimeStep = 1/30);
+    
+    // The number of iterations per update of the Physics System processing speed is 10 by default
+    system.velocityIterations = 8;
 
-    // // The number of iterations per update of the Physics System processing speed is 10 by default
-    // system.velocityIterations = 8;
-
-    // // The number of iterations per update of the Physics processing location is 10 by default
-    // system.positionIterations = 8;
+    // The number of iterations per update of the Physics processing location is 10 by default
+    system.positionIterations = 8;
 
     // PhysicsSystem2D.instance.debugDrawFlags = EPhysics2DDrawFlags.Aabb |
     // EPhysics2DDrawFlags.Pair |
@@ -66,9 +68,9 @@ export default class WorldScene extends Component {
 
     this.arrMoveBtnClick = [];
 
-    this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
-
-    input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+    // this.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
+    
+    input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this); 
     input.on(Input.EventType.KEY_UP, this.onKeyUp, this);
   }
   onTouchEnd() {
@@ -76,6 +78,7 @@ export default class WorldScene extends Component {
   }
 
   onKeyDown(event) {
+    console.log("Getting keydow",event);
     switch (event.keyCode) {
       case KeyCode.KEY_A:
         if (

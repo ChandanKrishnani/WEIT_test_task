@@ -6,6 +6,8 @@ import {
   Animation,
   Node,
   ProgressBar,
+  log,
+  sys,
 } from "cc";
 
 import { GameManager } from "../managers/GameManager";
@@ -19,6 +21,7 @@ import {
   ASSET_CACHE_MODE,
   CUSTON_EVENT,
   GAME_EVENT,
+  SCENE,
   SOUNDS_NAME,
 } from "../constants/Constant";
 import { GameEndPopup } from "../Lobby/GameEndPopup";
@@ -49,6 +52,9 @@ export class PersistNode extends Component {
   @property({type : Node})
   sceneTarnsition : Node;
 
+  @property(Node)
+  mobileAdapter : Node = null;
+
   start() {
     this.registerEvents(); // rehistering global events
     director.addPersistRootNode(this.node);
@@ -68,11 +74,31 @@ export class PersistNode extends Component {
   switchScene(sceneName : string){
     this.sceneTarnsition.active = true;
     this.sceneTarnsition.getComponent(Animation).play('transitionIn');
+    this.validateMobileView(sceneName); //Disable button for gameplay in lobby;
     director.loadScene(sceneName,()=>{
+      this.checkMusicStatus();    
       this.sceneTarnsition.getComponent(Animation).crossFade('transitionOut');
+      
     });
   }
 
+
+  // Enable mobile view for gameplay buttons
+  validateMobileView(sceneName: string){
+    sys.isMobile && sceneName == SCENE.GAMEPLAY ? this.enableMobileView() : this.disableMobileView();
+  }
+
+  enableMobileView(){
+      this.mobileAdapter.active = true;
+  }
+
+  disableMobileView(){
+    this.mobileAdapter.active = false;
+  }
+
+  checkMusicStatus(){
+    SoundManager.getInstance().CanPlayMusic ? this.resumeAudio() :  this.stopAudio();
+  }
 
 
   showGameEndPopup(gameResult: GameResultType){
@@ -102,7 +128,6 @@ export class PersistNode extends Component {
     SoundManager.getInstance().playMusicClip(clip, isloopOn);
   }
   playEffect(clip) {
-    console.log("Player sound effect of coin" , clip);
     SoundManager.getInstance().playSoundEffect(clip, false);
   }
   stopAudio() {

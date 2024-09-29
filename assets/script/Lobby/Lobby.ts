@@ -1,4 +1,4 @@
-import { _decorator, Component, director, Node } from 'cc';
+import { _decorator, Component, director, Node, Scene } from 'cc';
 import { GAME_EVENT, SCENE, SOUNDS_NAME } from '../constants/Constant';
 import { GameManager } from '../managers/GameManager';
 import { ResourcesManager } from '../managers/ResourcesManager';
@@ -7,7 +7,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Lobby')
 export class Lobby extends Component {
     start() {
-
+        director.preloadScene(SCENE.GAMEPLAY);
     }
 
     openGameplay(){

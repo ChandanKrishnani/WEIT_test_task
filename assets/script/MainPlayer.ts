@@ -5,84 +5,73 @@ import {
   RigidBody2D,
   math,
   Vec3,
-  Animation,
   Collider2D,
   Contact2DType,
   IPhysics2DContact,
-  PhysicsSystem2D,
-  CircleCollider2D,
   director,
-  tween,
   BoxCollider2D,
+  Vec2,
 } from "cc";
 const { ccclass, property } = _decorator;
 
-// import { GameManager } from "./GameManager";
-import {
-  PlayerActions,
-  PlayerStatusMachine,
-} from "./StatusSrc/PlayerStatusMachine";
+import { PlayerActions, PlayerStatusMachine } from "./StatusSrc/PlayerStatusMachine";
 import AttackStatus from "./StatusSrc/PlayerStatus/AttackStatus";
 import { CoinCost } from "./comman/CoinCost";
-import Beetle from "../textures/object/beetle/Beetle";
-import Snail from "../textures/object/snail/Snail";
 import { GameResultType } from "./comman/PersistNode";
-import CoinScript from "../textures/object/coin/coin_script";
 import { GameManager } from "./managers/GameManager";
-import { SOUNDS_NAME } from "./constants/Constant";
+import { GAME_EVENT, SOUNDS_NAME } from "./constants/Constant";
 import { ResourcesManager } from "./managers/ResourcesManager";
+
+// Enum for tag values to represent different collider objects
+enum ColliderTags {
+  ENEMY = 9,           // Tag for enemies
+  COIN = 8,            // Tag for coins
+  GROUND = 2,          // Tag for ground
+  PLATFORM = 3,        // Tag for platforms
+  WIN_CONDITION = 11,  // Tag for reaching the win condition
+}
 
 @ccclass("MainPlayer")
 export default class MainPlayer extends Component {
   @property(Node)
-  spritePlayer: Node | null = null;
+  spritePlayer: Node | null = null; // Player's sprite node
 
+  // Physics and state variables
   rigidbody: RigidBody2D | null = null;
-  nPlayerAttackLV: number = 1;
-  bPlayerInRunning: boolean = false;
-  nCachedPlayerFace: number = 1;
-  machineOBJ: PlayerStatusMachine = null;
+  machineOBJ: PlayerStatusMachine | null = null;
 
-  nPlayerRunSpeed: number = 4;
-  //Speed ​​when rolling
-  nPlayerRollSpeed: number = 7.5;
-  //hp
-  nPlayerHP: number = 100;
-  //mp
-  nPlayerMP: number = 100;
-  //endurance
-  nPlayerNP: number = 100;
-  //HP recovery speed (per second)
-  nPlayerHPRecov: number = 0;
-  //mp reply speed (per second)
-  nPlayerMPRecov: number = 0;
-  //    //np reply speed (per second)
-  nPlayerNPRecov: number = 0;
+  // Player attributes
+  nPlayerAttackLV = 1;        // Player attack level
+  nPlayerRunSpeed = 4;        // Running speed
+  nPlayerRollSpeed = 7.5;     // Rolling speed
+  nPlayerHP = 100;            // Health points (HP)
+  nPlayerMP = 100;            // Magic points (MP)
+  nPlayerNP = 100;            // Endurance points (NP)
+  nPlayerHPRecov = 0;         // HP recovery speed
+  nPlayerMPRecov = 0;         // MP recovery speed
+  nPlayerNPRecov = 0;         // NP recovery speed
+
+  // Player state flags
+  bPlayerInRunning = false;   // Is the player currently running?
+  nCachedPlayerFace = 1;      // Cached value to store the player's facing direction
 
   onLoad() {
+    // Initialize the rigidbody component and enable the contact listener
     this.rigidbody = this.node.getComponent(RigidBody2D);
-    this.rigidbody.enabledContactListener = true;
+    if (this.rigidbody) this.rigidbody.enabledContactListener = true;
   }
+
   start() {
-    let collider = this.getComponent(Collider2D);
+    // Set up collision event listeners
+    const collider = this.getComponent(Collider2D);
     if (collider) {
       collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-      collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
+      // collider.on(Contact2DType.END_CONTACT, this.onEndContact, this);
     }
 
-    this.bPlayerInRunning = false;
-    this.nPlayerAttackLV = 1;
-    console.log("--rigidBody--", this.rigidbody);
+    // Initialize the player status machine
     this.machineOBJ = new PlayerStatusMachine(this, this.spritePlayer);
-
-    //        /*
-    // play: When starting to play
-    // stop: when stopping playback
-    // pause: when pausing playback
-    // resume: when resuming playback
-    // lastframe: If the number of animation loops is greater than 1, when the animation plays to the last frame
-    // finished: when animation playback is completed
-    //        */
+    console.log("--rigidBody--", this.rigidbody);
   }
 
   onBeginContact(
@@ -90,181 +79,190 @@ export default class MainPlayer extends Component {
     otherCollider: Collider2D,
     contact: IPhysics2DContact
   ) {
-
+    // Get contact world manifold information
     let worldManifold = contact.getWorldManifold();
-    let points = worldManifold.points;
     let normal = worldManifold.normal;
+  
+    // Get tags for colliders
     let nOtherTag = otherCollider.tag;
-    let nSelfTag = selfCollider.tag;
-
-    if (nOtherTag == 9) {
-      if (
-        this.machineOBJ.getCurStatusKey() == PlayerActions.fallDown ||
-        this.machineOBJ.getCurStatusKey() == PlayerActions.attack ||
-        this.machineOBJ.getCurStatusKey() == PlayerActions.jump
-      ) {
-        this.scheduleOnce(() => {
-          if (otherCollider?.node) {
-            otherCollider.node.getComponent(RigidBody2D).enabled = false;
-            otherCollider.node.emit("playDead");
-          }
-        });
-      } else {
-        this.scheduleOnce(() => {
-            this.playerDieAnimation();
-        //   selfCollider.node.destroy();
-
-        });
-      }
+  
+    // Switch based on the tag of the other collider
+    switch (nOtherTag) {
+      case ColliderTags.ENEMY:
+        this.handleEnemyContact(otherCollider);
+        break;
+  
+      case ColliderTags.COIN:
+        this.handleCoinContact(otherCollider);
+        break;
+  
+      case ColliderTags.WIN_CONDITION:
+        this.handleWinCondition();
+        break;
+  
+      case ColliderTags.GROUND:
+      case ColliderTags.PLATFORM:
+        if (normal.y > 0 || normal.y < 0) {
+          this.handleGroundOrPlatformCollision();
+        }
+        break;
+  
+      case ColliderTags.GROUND:
+        if (normal.y >= 1) {
+          this.handleWallJump(contact);
+        }
+        break;
+  
+      default:
+        console.log("Unhandled collider tag:", nOtherTag);
+        break;
     }
-
-    if (nOtherTag == 8) {
+  }
+  
+  // Handle collision with an enemy
+  handleEnemyContact(otherCollider: Collider2D) {
+    // If the player is falling, attacking, or jumping, disable enemy's rigidbody and play the death animation
+    if (
+      this.machineOBJ.getCurStatusKey() === PlayerActions.fallDown ||
+      this.machineOBJ.getCurStatusKey() === PlayerActions.attack ||
+      this.machineOBJ.getCurStatusKey() === PlayerActions.jump
+    ) {
       this.scheduleOnce(() => {
         if (otherCollider?.node) {
-          GameManager.Instance.PersistNodeRef.playEffect(
-            ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.COIN)
-          );
-          director.emit(
-            "PlayCoinAnimation",
-            this.node.getPosition(),
-            otherCollider.node.getPosition(),
-            otherCollider.node.getComponent(CoinCost).coinPrize
-          );
-          otherCollider.node.destroy();
+          otherCollider.node.getComponent(RigidBody2D).enabled = false;
+          otherCollider.node.emit("playDead");
         }
       });
-      // otherCollider.node.active && (otherCollider.node.active = false);
-      console.log("coins colided", selfCollider, otherCollider);
+    } else {
+      // If not, trigger the player's death animation
+      this.scheduleOnce(() => {
+        this.playerDieAnimation();
+      });
     }
-
-    if(nOtherTag == 11){
-      this.PlayerwonAnimation();
-      
-    }
-
-    if ((nOtherTag == 3 || nOtherTag == 2) && (normal.y > 0 || normal.y < 0)) {
-      if (
-        this.machineOBJ.getCurStatusKey() == PlayerActions.fallDown ||
-        this.machineOBJ.getCurStatusKey() == PlayerActions.jump
-      ) {
-        if (this.bPlayerInRunning) {
-          this.machineOBJ.changeStatus(PlayerActions.move);
-        } else {
-          // this.rigidbody.linearVelocity = new math.Vec2(0, 0);
-          this.machineOBJ.changeStatus(PlayerActions.stand1);
-        }
-
-        // console.log("--",this.rigidbody.linearVelocity);
+  }
+  
+  // Handle collision with a coin
+  handleCoinContact(otherCollider: Collider2D) {
+    this.scheduleOnce(() => {
+      if (otherCollider?.node) {
+        // Play the coin collection sound and emit an event to trigger coin animation
+        GameManager.Instance.PersistNodeRef.playEffect(
+          ResourcesManager.Instance.getResourceFromCache(SOUNDS_NAME.COIN)
+        );
+        director.emit(
+          "PlayCoinAnimation",
+          this.node.getPosition(),
+          otherCollider.node.getPosition(),
+          otherCollider.node.getComponent(CoinCost).coinPrize
+        );
+        // Destroy the coin node after collection
+        otherCollider.node.destroy();
       }
-    }
-
-    // You can go up through the wall from underneath
-    if (nOtherTag == 2 && normal.y >= 1) {
-      if (this.machineOBJ.getCurStatusKey() == PlayerActions.jump) {
-        contact.disabled = true;
+    });
+    // console.log("Coin collected", selfCollider, otherCollider);
+  }
+  
+  // Handle win condition (e.g., when the player reaches the goal)
+  handleWinCondition() {
+    this.playerWinAnimation();
+  }
+  
+  // Handle ground or platform collision
+  handleGroundOrPlatformCollision() {
+    // If the player is falling or jumping, switch to move or stand state based on running status
+    if (
+      this.machineOBJ.getCurStatusKey() === PlayerActions.fallDown ||
+      this.machineOBJ.getCurStatusKey() === PlayerActions.jump
+    ) {
+      if (this.bPlayerInRunning) {
+        this.machineOBJ.changeStatus(PlayerActions.move);
+      } else {
+        this.machineOBJ.changeStatus(PlayerActions.stand1);
       }
     }
   }
-  //    //Only called once when the two colliders end contact
-  onEndContact(contact, selfCollider, otherCollider) {}
-  //    //Called every time the collision logic is about to be processed
-  onPreSolve(contact, selfCollider, otherCollider) {}
-  //    //Called every time the collision body contact logic is processed
-  onPostSolve(contact, selfCollider, otherCollider) {}
+  
+  // Handle wall jump (disabling collision when jumping through from below)
+  handleWallJump(contact: IPhysics2DContact) {
+    if (this.machineOBJ.getCurStatusKey() === PlayerActions.jump) {
+      contact.disabled = true;
+    }
+  }
+  
+
+  // Handle player attack action
   runAttack() {
-    // @ts-ignore
-    let curStatus: AttackStatus = this.machineOBJ.curStatus;
-    if (
-      this.machineOBJ.getCurStatusKey() != PlayerActions.attack ||
-      !curStatus.bInAttackAnimation
-    ) {
+    const curStatus = this.machineOBJ.curStatus as AttackStatus;
+
+    // Change status to attack if player isn't already attacking
+    if (this.machineOBJ.getCurStatusKey() !== PlayerActions.attack || !curStatus.bInAttackAnimation) {
       this.machineOBJ.changeStatus(PlayerActions.attack);
     }
   }
+// Play player death win animation and trigger game over event
+playerWinAnimation(){
+    director.emit(GAME_EVENT.SHOW_GAME_END_POPUP,GameResultType.PLAYER_WON);
+ }
 
-  playerDieAnimation(){
-    
+
+  // Play player death animation and trigger game over event
+  playerDieAnimation() {
     this.bPlayerInRunning = false;
-    // this.node.getComponent(BoxCollider2D).group = 3;
-    this.machineOBJ.changeStatus(PlayerActions.died); 
-    
-    // console.log("game end called" , director.getScene());
-    director.emit("ShowGameEndPopup",GameResultType.PLAYER_LOSE);
-  
-
-    
+     this.node.getComponent(BoxCollider2D).group = 3;
+    this.machineOBJ.changeStatus(PlayerActions.died); // Change status to 'died'
+    director.emit(GAME_EVENT.SHOW_GAME_END_POPUP, GameResultType.PLAYER_LOSE); // Emit game over event
   }
 
-  PlayerwonAnimation(){
-     director.emit("ShowGameEndPopup",GameResultType.PLAYER_WON);
-  }
+  // Handle player rolling action
   runRolling() {
-  
-    if (
-      this.machineOBJ.getCurStatusKey() != PlayerActions.jump &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.fallDown &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.rolling
-    ) {
+    // Change status to rolling if not jumping or falling
+    if (![PlayerActions.jump, PlayerActions.fallDown, PlayerActions.rolling].includes(this.machineOBJ.getCurStatusKey())) {
       this.machineOBJ.changeStatus(PlayerActions.rolling);
       this.nPlayerRunSpeed = this.nPlayerRollSpeed;
     }
   }
-  runJump() {
-    if (this.machineOBJ.getCurStatusKey() == PlayerActions.attack) {
-      return;
-    }
-    if (
-      this.machineOBJ.getCurStatusKey() != PlayerActions.jump &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.fallDown
-    ) {
-      this.machineOBJ.changeStatus(PlayerActions.jump);
 
-      this.rigidbody.applyLinearImpulse(
-        new math.Vec2(0, 150),
-        new math.Vec2(0, 0),
-        true
-      );
+  // Handle player jumping action
+  runJump() {
+    // Prevent jumping if the player is attacking
+    if (this.machineOBJ.getCurStatusKey() === PlayerActions.attack) return;
+
+    // If not already jumping or falling, change status to jump and apply upward force
+    if (![PlayerActions.jump, PlayerActions.fallDown].includes(this.machineOBJ.getCurStatusKey())) {
+      this.machineOBJ.changeStatus(PlayerActions.jump);
+      this.rigidbody?.applyLinearImpulse(new math.Vec2(0, 150), new math.Vec2(0, 0), true);
     }
   }
-  runFallDown() {
-    if (this.machineOBJ.getCurStatusKey() != PlayerActions.fallDown) {
-      this.machineOBJ.changeStatus(PlayerActions.fallDown);
-    }
-  }
+
+  // Set player running state and change status accordingly
   setPlayerInRunning(bRunning: boolean) {
     this.bPlayerInRunning = bRunning;
+
     if (
       bRunning &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.attack &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.fallDown &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.jump
+      ![PlayerActions.attack, PlayerActions.fallDown, PlayerActions.jump].includes(this.machineOBJ.getCurStatusKey())
     ) {
-      console.log("set player run", this.nPlayerRunSpeed);
       this.machineOBJ.changeStatus(PlayerActions.move);
     } else if (
       !bRunning &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.attack &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.fallDown &&
-      this.machineOBJ.getCurStatusKey() != PlayerActions.jump
+      ![PlayerActions.attack, PlayerActions.fallDown, PlayerActions.jump].includes(this.machineOBJ.getCurStatusKey())
     ) {
       this.machineOBJ.changeStatus(PlayerActions.stand1);
     }
   }
 
+  // Set player's facing direction
   setPlayerFaceRight(bRight: boolean) {
-    let nScaleX = bRight ? 1 : -1;
-    this.nCachedPlayerFace = nScaleX;
+    this.nCachedPlayerFace = bRight ? 1 : -1; // Cache the facing direction
   }
-  setPlayerFace() {
 
-    //If in attack action
-    if (this.machineOBJ.getCurStatusKey() == PlayerActions.attack) {
-      return;
+  // Ensure player is facing the correct direction
+  setPlayerFace() {
+    if (this.machineOBJ.getCurStatusKey() === PlayerActions.attack) return;
+
+    if (this.node.scale.x !== this.nCachedPlayerFace) {
+      this.node.setScale(new Vec3(this.nCachedPlayerFace, this.node.scale.y, 1)); // Flip player horizontally
     }
-    if (this.node.scale.x == this.nCachedPlayerFace) {
-      return;
-    }
-    this.node.setScale(new Vec3(this.nCachedPlayerFace, this.node.scale.y, 1));
   }
 
   update(dt: number) {
